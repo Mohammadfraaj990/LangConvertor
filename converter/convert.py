@@ -1,6 +1,9 @@
+import os
 import requests
+from dotenv import load_dotenv
 
-api_key = "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"  # ⬅ Replace with your actual key
+load_dotenv()
+api_key = os.getenv("OPENROUTER_API_KEY")
 MODEL = "mistralai/mistral-7b-instruct"  # Free model
 
 def convert_code(code, source_lang, target_lang):
@@ -10,7 +13,7 @@ def convert_code(code, source_lang, target_lang):
             "Content-Type": "application/json"
         }
         messages = [
-            {"role": "system", "content": "You convert programming code between languages."},
+            {"role": "system", "content": "You convert programming code between languages. Return only the code, nothing else."},
             {"role": "user", "content": f"Convert this code from {source_lang} to {target_lang}:\n{code}"}
         ]
         response = requests.post(
@@ -23,7 +26,7 @@ def convert_code(code, source_lang, target_lang):
         if 'choices' in data:
             return data['choices'][0]['message']['content']
         else:
-            return f"Conversion failed.\n\n{data}"
+            return f"❌ Conversion failed.\n\n{data}"
 
     except Exception as e:
-        return f"Error: {e}"
+        return f"❌ Error: {e}"

@@ -1,0 +1,27 @@
+body {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: #f1f1f1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1, h2, h3 {
+    color: #66fcf1;
+    text-shadow: 1px 1px 2px #000;
+}
+button[kind="primary"] {
+    background-color: #45a29e;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+textarea {
+    background-color: #1f2833;
+    color: #c5c6c7;
+    border: 1px solid #45a29e;
+}
+code {
+    background-color: #0b0c10 !important;
+    color: #66fcf1 !important;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+}
