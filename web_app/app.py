@@ -2,21 +2,30 @@ import streamlit as st
 import os
 import sys
 from dotenv import load_dotenv
+from pathlib import Path
 
-# Load environment variables
-load_dotenv()
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Ensure root folder is in path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from converter.convert import convert_code
+
+# Load environment
+dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=dotenv_path)
 
 # Load custom CSS
 def load_css(file_path):
-    with open(file_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    try:
+        with open(file_path, "r") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.warning("⚠️ style.css not found!")
 
 load_css("web_app/style.css")
 
+# Streamlit UI
 st.title("🔄 LangConvertor - AI Code Converter")
-st.markdown("Easily convert code between languages using OpenRouter AI (Free API).")
+st.markdown("Easily convert code between programming languages using OpenRouter (Free API)")
 
 code_input = st.text_area("✍️ Enter your code:", height=200)
 source_lang = st.selectbox("🧩 Source Language", ["Python", "Java", "C++", "JavaScript"])
@@ -24,7 +33,7 @@ target_lang = st.selectbox("🎯 Target Language", ["Python", "Java", "C++", "Ja
 
 if st.button("🚀 Convert"):
     if not code_input.strip():
-        st.warning("Please enter your code.")
+        st.warning("Please enter some code.")
     elif source_lang == target_lang:
         st.warning("Source and target languages must be different.")
     else:
